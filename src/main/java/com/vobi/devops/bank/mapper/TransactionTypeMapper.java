@@ -18,6 +18,7 @@ import com.vobi.devops.bank.dto.TransactionTypeDTO;
  */
 @Mapper
 public interface TransactionTypeMapper {
+	
 	public TransactionTypeDTO transactionTypeToTransactionTypeDTO(TransactionType transactionType);
 
 	public TransactionType transactionTypeDTOToTransactionType(TransactionTypeDTO transactionTypeDTO);

@@ -19,6 +19,7 @@ import com.vobi.devops.bank.dto.TransactionDTO;
  */
 @Mapper
 public interface TransactionMapper {
+	
 	@Mapping(source = "users.userEmail", target = "userEmail_Users")
 	@Mapping(source = "transactionType.trtyId", target = "trtyId_TransactionType")
 	@Mapping(source = "account.accoId", target = "accoId_Account")

@@ -10,7 +10,7 @@
 	</parent>
 
 	<groupId>com.vobi.devops.bank.domain</groupId>
-	<artifactId>bank-backend-devops</artifactId>
+	<artifactId>test-automation</artifactId>
 	<version>1.0.0</version>
 	<name>test-automation</name>
 	<description>test-automation</description>
@@ -40,6 +40,36 @@
         <surefire.and.failsafe.report.dir>target/test-report</surefire.and.failsafe.report.dir>
 	</properties>
 	
+	<profiles>
+        <profile>
+        	<activation>
+        		<activeByDefault>true</activeByDefault>
+        	</activation>
+            <id>dev</id>            
+        </profile>
+        
+        <profile>
+            <id>integration-test</id>
+            <properties>
+                <!-- Solo los test de integracion seran ejecutados. -->
+                <skip.integration.tests>false</skip.integration.tests>
+                <skip.unit.tests>true</skip.unit.tests>
+                <skip.jacoco>true</skip.jacoco>
+                <skip.pitest>true</skip.pitest>
+            </properties>
+        </profile>
+        
+        <profile>
+            <id>mutation-test</id>
+            <properties>
+                <skip.integration.tests>true</skip.integration.tests>
+                <skip.unit.tests>false</skip.unit.tests>
+                <skip.jacoco>false</skip.jacoco>
+                <skip.pitest>false</skip.pitest>
+            </properties>
+        </profile>
+    </profiles>
+
 	<dependencies>
 
 		<dependency>
@@ -150,7 +180,14 @@
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-junit-jupiter</artifactId>
 			<scope>test</scope>
-		</dependency>		
+		</dependency>	
+		
+		<dependency>
+			<groupId>io.github.bonigarcia</groupId>
+			<artifactId>selenium-jupiter</artifactId>
+			<version>3.4.0</version>
+			<scope>test</scope>
+		</dependency>	
 
 	</dependencies>
 
@@ -192,7 +229,16 @@
 				</configuration>
 			</plugin>
 			
-			
+			<plugin>
+	            <groupId>org.openclover</groupId>
+	            <artifactId>clover-maven-plugin</artifactId>
+	            <version>${org.openclover.clover.maven.plugin.version}</version>
+	            <configuration>
+	                <!-- Use custom report descriptor -->
+	                <reportDescriptor>clover-report.xml</reportDescriptor>
+	            </configuration>
+	        </plugin>
+	        
 			<plugin>
 			    <artifactId>maven-surefire-plugin</artifactId>
 			    <configuration>
@@ -235,7 +281,6 @@
 						<exclude>com.vobi.devops.bank/SpringBootRunner.class</exclude>
 						
 						<!-- exclude classes in package -->
-						<!-- 
 						<exclude>com/vobi/devops/bank/entityservice/*</exclude>
 						<exclude>com/vobi/devops/bank/entitycontroller/*</exclude>
 						<exclude>com/vobi/devops/bank/dto/*</exclude>
@@ -243,8 +288,7 @@
 						<exclude>com/vobi/devops/bank/mapper/*</exclude>
 						<exclude>com/vobi/devops/bank/utility/*</exclude>
 						<exclude>com/vobi/devops/bank/exception/*</exclude>
-						 -->
-						 
+						
 					</excludes>
 				</configuration>
 				<executions>
@@ -265,7 +309,44 @@
 			</plugin>
 			<!-- Code Coverage -->
 			
-			
+			<plugin>
+	            <groupId>org.pitest</groupId>
+	            <artifactId>pitest-maven</artifactId>
+	            <version>${org.pitest.maven.version}</version>
+	
+	            <!--attach execution to maven's test phase-->
+	            <executions>
+	                <execution>
+	                    <id>pit-report</id>
+	                    <phase>test</phase>
+	                    <goals>
+	                        <goal>mutationCoverage</goal>
+	                    </goals>
+	                </execution>
+	            </executions>
+	
+	            <!--allows to work with JUnit 5-->
+	            <dependencies>
+	                <dependency>
+	                    <groupId>org.pitest</groupId>
+	                    <artifactId>pitest-junit5-plugin</artifactId>
+	                    <version>${org.pitest.junit5.plugin.version}</version>
+	                </dependency>
+	            </dependencies>
+	
+	            <!--optional-->
+	            <configuration>
+	            	<skip>${skip.pitest}</skip>
+	                <targetClasses>
+	                    <param>com.vobi.devops.bank.service*</param>
+	                </targetClasses>
+	                <targetTests>
+	                    <param>com.vobi.devops.bank.service*</param>
+	                </targetTests>
+	            </configuration>	
+	        </plugin>
+	        
+	        
 		</plugins>
 	</build>
 

@@ -18,6 +18,7 @@ import com.vobi.devops.bank.dto.DocumentTypeDTO;
  */
 @Mapper
 public interface DocumentTypeMapper {
+	
 	public DocumentTypeDTO documentTypeToDocumentTypeDTO(DocumentType documentType);
 
 	public DocumentType documentTypeDTOToDocumentType(DocumentTypeDTO documentTypeDTO);

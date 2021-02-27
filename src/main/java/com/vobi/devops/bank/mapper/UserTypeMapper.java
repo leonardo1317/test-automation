@@ -18,6 +18,7 @@ import com.vobi.devops.bank.dto.UserTypeDTO;
  */
 @Mapper
 public interface UserTypeMapper {
+	
 	public UserTypeDTO userTypeToUserTypeDTO(UserType userType);
 
 	public UserType userTypeDTOToUserType(UserTypeDTO userTypeDTO);

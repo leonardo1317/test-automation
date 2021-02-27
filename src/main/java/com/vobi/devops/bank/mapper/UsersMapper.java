@@ -19,6 +19,7 @@ import com.vobi.devops.bank.dto.UsersDTO;
  */
 @Mapper
 public interface UsersMapper {
+	
 	@Mapping(source = "userType.ustyId", target = "ustyId_UserType")
 	public UsersDTO usersToUsersDTO(Users users);
 

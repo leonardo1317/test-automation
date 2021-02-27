@@ -161,7 +161,7 @@ public class BankTransactionServiceImpl implements BankTransactionService {
 			throw new Exception("El AccoId es obligatorio");
 		}
 
-		if (depositDTO.getAmount() == null || depositDTO.getAmount() < 0) {
+		if (depositDTO.getAmount() == null || depositDTO.getAmount() <= 0) {
 			throw new Exception("El Amount es obligatorio y debe ser mayor que cero");
 		}
 
@@ -195,7 +195,6 @@ public class BankTransactionServiceImpl implements BankTransactionService {
 		transaction.setAccount(account);
 		transaction.setAmount(depositDTO.getAmount());
 		transaction.setDate(new Timestamp(System.currentTimeMillis()));
-		transaction.setTranId(null);
 		transaction.setTransactionType(transactionType);
 		transaction.setUsers(user);
 

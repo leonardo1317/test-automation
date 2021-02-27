@@ -19,6 +19,7 @@ import com.vobi.devops.bank.dto.RegisteredAccountDTO;
  */
 @Mapper
 public interface RegisteredAccountMapper {
+	
 	@Mapping(source = "customer.custId", target = "custId_Customer")
 	@Mapping(source = "account.accoId", target = "accoId_Account")
 	public RegisteredAccountDTO registeredAccountToRegisteredAccountDTO(RegisteredAccount registeredAccount);
